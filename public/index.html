@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!doctype html>
+<html ng-app='simpleApp'>
+  <head>
+    <title>Simple Angular project</title>
+    <link rel='stylesheet' href='/stylesheets/index.css' type='text/css' />
+  </head>
+    <script type='text/ecmascript'
+            src='https://code.angularjs.org/1.2.24/angular.js'></script>
+    <script type='text/ecmascript'
+            src='https://code.angularjs.org/1.2.24/angular-route.js'></script>
+    <script type='text/ecmascript' src='/js/app.js'></script>
+  <body ng-controller='simpleController'>
+    <ng-form>
+      <input ng-model='user' placeholder='Enter user' name=user ng-required
+             ng-blur='user.length && getFacilities()' />
+      <br/>
+      <input ng-model='password' placeholder='Enter password' ng-required
+             name='password' type='password'/>
+      <br/>
+      <select ng-options='facility as facility.facilityName for facility in facilities' ng-model='$parent.facility'
+              ng-if='facilities' />
+      <br/>
+      <select ng-options='unit.unit_code as unit.unit_name for unit in units'
+              ng-model='unit' ng-if='units' />
+      <br/>
+      <button ng-click='login()'
+              ng-enabled='user && password && facility && unit'>LogOn</button>
+      <button ng-click='reset' ng-enabled='$dirty'>Reset</button>
+    </ng-form>
+    <span>{{sum}}</span>
+  </body>
+</html>
