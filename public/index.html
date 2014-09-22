@@ -22,12 +22,11 @@
               ng-if='facilities' />
       <br/>
       <select ng-options='unit.unit_code as unit.unit_name for unit in units'
-              ng-model='unit' ng-if='units' />
+              ng-model='$parent.unit' ng-if='units' />
       <br/>
       <button ng-click='login()'
-              ng-enabled='user && password && facility && unit'>LogOn</button>
-      <button ng-click='reset' ng-enabled='$dirty'>Reset</button>
+              ng-if='user && password && facility && unit'>LogOn</button>
+      <button ng-click='reset()' ng-if='$dirty'>Reset</button>
     </ng-form>
-    <span>{{sum}}</span>
   </body>
 </html>
