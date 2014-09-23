@@ -6,5 +6,6 @@
         #:cl-ppcre
         #:hunchentoot
         #:mssql
+        #:uiop
         )
   )
