@@ -10,8 +10,8 @@
     <script type='text/ecmascript'
             src='https://code.angularjs.org/1.2.25/angular-route.js'></script>
     <script type='text/ecmascript' src='/js/app.js'></script>
-  <body ng-controller='simpleController'>
-    <ng-form name='loginForm'>
+  <body>
+    <ng-form name='loginForm' ng-controller='loginController'>
       <fieldset>
         <legend>User Validation</legend>
         <input ng-model='user' placeholder='Enter user' name='user' ng-required

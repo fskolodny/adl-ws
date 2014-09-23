@@ -1,8 +1,8 @@
 (function() {
     var app = angular.module('simpleApp',[]);
-    app.controller('simpleController',
-                   ['$scope', '$http',
-                    function($scope, $http) {
+    app.controller('loginController',
+                   ['$scope', '$http', '$location', '$rootScope',
+                    function($scope, $http, $location, $rootScope) {
                         $scope.$watch('facility', function(newValue, oldValue) {
                             if(!newValue) return;
                             $scope.resetUnits();
@@ -43,6 +43,12 @@
                                 password: $scope.password
                             }).success(function(data, status, headers, config) {
                                 $scope.isLoggedOn = data.isLoggedOn;
+                                if($scope.isLoggedOn) {
+                                    $rootScope.user = $scope.user;
+                                    $rootScope.facility = $scope.facility;
+                                    $rootScope.unit = $scope.unit;
+                                    $location.path('/patients');
+                                }
                             });
                         };
                         $scope.reset = function() {
