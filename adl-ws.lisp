@@ -21,13 +21,20 @@
    )
   )
 
+(define-easy-handler (patients :uri "/patients") (facility unit)
+  (setf (content-type*) "application/json")
+  (encode-json-to-string (query (format nil "SELECT * FROM ~a WHERE ~a"
+                                        "OGEN.GEN_M_PATIENT_MAST"
+                                        (format nil "FACILITY_KEY='~a' AND 'UNIT='~a'"
+                                                facility unit)) :format :alists))
+  )
+
 (define-easy-handler (login :uri "/login") ()
   (setf (content-type*) "application/json")
   (let* ((post-data (decode-json-from-string (raw-post-data :force-text t)))
          (user (cdr (assoc :user post-data)))
          (password (cdr (assoc :password post-data)))
          )
-    (log-message* :debug "user (~a) password (~a)" user password)
     (encode-json-plist-to-string (list :is-logged-on
                                        (query (format nil
                                                       "OGEN.CAN_LOGIN @P_USER_ID='~a',@P_PASSWORD='~a'"

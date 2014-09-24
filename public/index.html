@@ -10,27 +10,40 @@
     <script type='text/ecmascript'
             src='https://code.angularjs.org/1.2.25/angular-route.js'></script>
     <script type='text/ecmascript' src='/js/app.js'></script>
+    <script type='text/ng-template' id='patients.html'>
+      <div>{{user}} at {{facility.facilityName}} {{unit.unitLabel}}</div>
+      <div>Patient List</div>
+      <ul>
+        <li ng-repeat='patient in patients' ng-click='selectPatient(patient)'>
+          {{patient.name}}
+        </li>
+      </ul>
+    </script>
+    <script type='text/ng-template' id='login.html'>
+      <form name='loginForm'>
+        <fieldset>
+          <legend>User Validation</legend>
+          <input ng-model='user' placeholder='Enter user' name='user' ng-required
+                 ng-blur='user != oldUser && getFacilities()' />
+          <input ng-model='password' placeholder='Enter password' ng-required
+                 name='password' type='password'/>
+        </fieldset>
+        <fieldset ng-if='facilities'>
+          <legend>Facility/Unit</legend>
+          <select ng-options='facility as facility.facilityName for facility in facilities'
+                  ng-model='$parent.facility' name='facility' >
+          </select>
+  	<br/>
+          <select ng-options='unit as unit.unitLabel for unit in units'
+                  ng-model='$parent.$parent.unit' name='unit' ng-if='facility'>
+          </select>
+        </fieldset>
+        <button ng-click='login()' ng-if='user && password && facility && unit'>LogOn</button>
+        <button ng-click='reset()' ng-if='loginForm.$dirty'>Reset</button>
+      </form>
+    </script>
   <body>
-    <ng-form name='loginForm' ng-controller='loginController'>
-      <fieldset>
-        <legend>User Validation</legend>
-        <input ng-model='user' placeholder='Enter user' name='user' ng-required
-               ng-blur='user != oldUser && getFacilities()' />
-        <input ng-model='password' placeholder='Enter password' ng-required
-               name='password' type='password'/>
-      </fieldset>
-      <fieldset ng-if='facilities'>
-        <legend>Facility/Unit</legend>
-        <select ng-options='facility as facility.facilityName for facility in facilities'
-                ng-model='$parent.facility' name='facility' >
-        </select>
-	<br/>
-        <select ng-options='unit as unit.unitLabel for unit in units'
-                ng-model='$parent.$parent.unit' name='unit' ng-if='facility'>
-        </select>
-      </fieldset>
-      <button ng-click='login()' ng-if='user && password && facility && unit'>LogOn</button>
-      <button ng-click='reset()' ng-if='loginForm.$dirty'>Reset</button>
-    </ng-form>
+    <div ng-view>
+    </div>
   </body>
 </html>

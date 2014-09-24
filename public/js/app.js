@@ -1,5 +1,38 @@
 (function() {
-    var app = angular.module('simpleApp',[]);
+    var app = angular.module('simpleApp', ['ngRoute']);
+    app.config(['$routeProvider', function($routeProvider) {
+        $routeProvider.when('/login', {
+            templateUrl: 'login.html',
+            controller: 'loginController'
+        }).when('/patients', {
+            templateUrl: 'patients.html',
+            controller: 'patientsController'
+        }).otherwise({
+            redirectTo: '/login'
+        });
+    }]);
+    app.controller('patientsController',
+                   ['$scope', '$http', '$location', '$routeParams',
+                    '$rootScope',
+                    function($scope, $http, $location, $routeParams,
+                             $rootScope) {
+                        $scope.user = $rootScope.user;
+                        $scope.facility = $rootScope.facility;
+                        $scope.unit = $rootScope.unit;
+                        $scope.selectPatient = function(patient) {
+                            console.log('patient ' + patient + ' selected');
+                        };
+                        $http.get('/patients', {
+                            params: {
+                                facility: $scope.facility.facilityKey,
+                                unit: $scope.unit.unitCode
+                            }
+                        }).success(function(data, status, headers, config) {
+                            $scope.patients = data;
+                        }).error(function(data, status, headers, config) {
+                            console.log(status);
+                        });
+                    }]);
     app.controller('loginController',
                    ['$scope', '$http', '$location', '$rootScope',
                     function($scope, $http, $location, $rootScope) {
