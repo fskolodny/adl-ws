@@ -4,7 +4,6 @@
   <head>
     <title>Simple Angular project</title>
     <link rel='stylesheet' href='/stylesheets/index.css' type='text/css' />
-  </head>
     <script type='text/ecmascript'
             src='https://code.angularjs.org/1.2.25/angular.js'></script>
     <script type='text/ecmascript'
@@ -13,11 +12,27 @@
     <script type='text/ng-template' id='patients.html'>
       <div>{{user}} at {{facility.facilityName}} {{unit.unitLabel}}</div>
       <div>Patient List</div>
-      <ul>
-        <li ng-repeat='patient in patients' ng-click='selectPatient(patient)'>
-          {{patient.name}}
-        </li>
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Room</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat='patient in patients'>
+            <td>
+              <a ng-click='selectPatient($event,patient)' href='#'>
+                {{patient.name}}
+              </a>
+              <div ng-if='selectedPatient === patient'>
+                {{patient.facilityKey}}
+              </div>
+            </td>
+            <td>{{patient.room}}</td>
+          </tr>
+        </tbody>
+      </table>
     </script>
     <script type='text/ng-template' id='login.html'>
       <form name='loginForm'>
@@ -25,6 +40,7 @@
           <legend>User Validation</legend>
           <input ng-model='user' placeholder='Enter user' name='user' ng-required
                  ng-blur='user != oldUser && getFacilities()' />
+          <br/>
           <input ng-model='password' placeholder='Enter password' ng-required
                  name='password' type='password'/>
         </fieldset>
@@ -33,7 +49,7 @@
           <select ng-options='facility as facility.facilityName for facility in facilities'
                   ng-model='$parent.facility' name='facility' >
           </select>
-  	<br/>
+  	  <br/>
           <select ng-options='unit as unit.unitLabel for unit in units'
                   ng-model='$parent.$parent.unit' name='unit' ng-if='facility'>
           </select>
@@ -42,6 +58,7 @@
         <button ng-click='reset()' ng-if='loginForm.$dirty'>Reset</button>
       </form>
     </script>
+  </head>
   <body>
     <div ng-view>
     </div>

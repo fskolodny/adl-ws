@@ -1,4 +1,12 @@
 (function() {
+    var Patient = function(pat) {
+        for(name in pat) {
+            if(pat.hasOwnProperty(name)) {
+                this[name] = pat[name];
+            };
+        };
+        this.name = this.lastName + ", " + this.firstName;
+    };
     var app = angular.module('simpleApp', ['ngRoute']);
     app.config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/login', {
@@ -19,8 +27,10 @@
                         $scope.user = $rootScope.user;
                         $scope.facility = $rootScope.facility;
                         $scope.unit = $rootScope.unit;
-                        $scope.selectPatient = function(patient) {
-                            console.log('patient ' + patient + ' selected');
+                        $scope.selectPatient = function(event, patient) {
+                            event.preventDefault();
+                            $scope.selectedPatient = patient;
+                            console.log(patient);
                         };
                         $http.get('/patients', {
                             params: {
@@ -28,7 +38,10 @@
                                 unit: $scope.unit.unitCode
                             }
                         }).success(function(data, status, headers, config) {
-                            $scope.patients = data;
+                            $scope.patients = [];
+                            angular.forEach(data, function(value, index) {
+                                $scope.patients.push(new Patient(value));
+                            });
                         }).error(function(data, status, headers, config) {
                             console.log(status);
                         });
