@@ -5,6 +5,7 @@
                 this[name] = pat[name];
             };
         };
+        this.selected = false;
         this.name = this.lastName + ", " + this.firstName;
     };
     var app = angular.module('simpleApp', ['ngRoute']);
@@ -28,8 +29,10 @@
                         $scope.facility = $rootScope.facility;
                         $scope.unit = $rootScope.unit;
                         $scope.selectPatient = function(event, patient) {
+                            angular.forEach($scope.patients, function(pat) {pat.selected = false;});
                             event.preventDefault();
                             $scope.selectedPatient = patient;
+                            patient.selected = true;
                             console.log(patient);
                         };
                         $http.get('/patients', {

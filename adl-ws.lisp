@@ -31,7 +31,7 @@
    (with-connection ("ADLPRO2" "OGEN" "OGEN1" "192.168.1.184")
      (query (format nil "SELECT * FROM ~a WHERE ~a"
                     "OGEN.GEN_M_PATIENT_MAST"
-                    (format nil "FACILITY_KEY='~a' AND UNIT_CODE='~a' AND ADMIT_DATE>'1900-01-02' AND ADMIT_DATE<=GETDATE()"
+                    (format nil "FACILITY_KEY='~a' AND UNIT_CODE='~a' AND ADMIT_DATE>'1900-01-02' AND ADMIT_DATE<=GETDATE() AND (DISCHARGE_DATE IS NULL OR DISCHARGE_DATE>=GETDATE())"
                             facility unit)
                     )
             :format :alists)

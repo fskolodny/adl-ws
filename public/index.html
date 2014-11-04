@@ -17,6 +17,7 @@
           <tr>
             <th>Name</th>
             <th>Room</th>
+            <th>Vital Signs</th>
           </tr>
         </thead>
         <tbody>
@@ -25,11 +26,32 @@
               <a ng-click='selectPatient($event,patient)' href='#'>
                 {{patient.name}}
               </a>
-              <div ng-if='selectedPatient === patient'>
-                {{patient.facilityKey}}
-              </div>
             </td>
             <td>{{patient.room}}</td>
+            <td>
+              <div ng-if='patient.selected'>
+                {{patient.facilityKey}}
+                <table>
+                  <thead>
+                    <tr>
+                      <th ng-repeat='test in patient.tests'>{{test.date}}</th>
+                      <th/>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat='testName in testNames'>
+                      <td ng-repeat='test in patient.tests'>{{test[testName]}}</td>
+                      <td>
+                        <ng-form name='test'>
+                          <input name='value' />
+                          <button ng-click='submit' />
+                        </ng-form>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
