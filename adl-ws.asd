@@ -1,14 +1,8 @@
-;;;; adl-ws.asd
+;;;; adl-ws.lisp
 
 (asdf:defsystem #:adl-ws
-  :serial t
-  :description "Describe adl-ws here"
-  :author "Fila Kolodny <fskolodny@gmail.com>"
-  :license "Specify license here"
-  :depends-on (#:cl-ppcre
-               #:hunchentoot
-               #:cl-json
-               #:mssql)
-  :components ((:file "package")
-               (:file "adl-ws")))
+  :class :package-inferred-system
+  :defsystem-depends-on (:asdf-package-system)
+  :depends-on (:adl-ws/adl-ws)
+  )
 

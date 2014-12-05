@@ -1,5 +1,14 @@
 ;;;; adl-ws.lisp
 
+(defpackage #:adl-ws
+  (:use #:cl
+        )
+  (:import-from #:cl-json #:encode-json-to-string #:encode-json-plist-to-string #:decode-json-from-string)
+  (:import-from #:cl-ppcre)
+  (:import-from #:hunchentoot #:define-easy-handler #:easy-acceptor #:content-type* #:raw-post-data #:start #:stop)
+  (:import-from #:mssql #:with-connection #:query)
+  (:import-from #:uiop #:getcwd #:merge-pathnames* #:ensure-directory-pathname)
+  )
 (in-package #:adl-ws)
 
 ;;; "adl-ws" goes here. Hacks and glory await!
